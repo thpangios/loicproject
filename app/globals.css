@@ -7,7 +7,7 @@
 }
 
 html, body {
-  background-color: #0A1324;
+  background-color: #12203A;
   color: #EDF3FF;
   font-feature-settings: "ss01", "cv11";
   -webkit-font-smoothing: antialiased;
@@ -17,9 +17,9 @@ body {
   font-family: var(--font-inter), system-ui, sans-serif;
   min-height: 100vh;
   background:
-    radial-gradient(1200px 640px at 8% -14%, rgba(198, 154, 86, 0.11), transparent 58%),
-    radial-gradient(900px 520px at 108% 0%, rgba(88, 120, 168, 0.12), transparent 62%),
-    linear-gradient(180deg, #0D1930 0%, #0A1324 100%);
+    radial-gradient(1200px 640px at 8% -14%, rgba(198, 154, 86, 0.12), transparent 58%),
+    radial-gradient(980px 560px at 104% 4%, rgba(126, 155, 196, 0.18), transparent 60%),
+    linear-gradient(180deg, #1A2E4C 0%, #142440 34%, #0D1830 68%, #0A1324 100%);
 }
 
 ::selection {
@@ -29,7 +29,7 @@ body {
 
 @layer components {
   .card {
-    background: linear-gradient(180deg, rgba(24, 42, 69, 0.92) 0%, rgba(19, 35, 59, 0.96) 100%);
+    background: linear-gradient(180deg, rgba(35, 58, 91, 0.9) 0%, rgba(24, 43, 70, 0.95) 100%);
     @apply border border-line rounded-xl shadow-card backdrop-blur-sm;
   }
   .card-hover {
@@ -39,7 +39,8 @@ body {
     @apply text-[10px] font-semibold uppercase tracking-[0.18em] text-ink-subtle;
   }
   .input {
-    @apply w-full bg-navy-800/80 border border-line rounded-lg px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-subtle
+    background-color: rgba(24, 42, 69, 0.72);
+    @apply w-full border border-line rounded-lg px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-subtle
            focus:outline-none focus:border-gold-500/70 focus:ring-2 focus:ring-gold-500/10 transition;
   }
   .btn-primary {
@@ -47,12 +48,19 @@ body {
            text-sm px-4 py-2.5 rounded-lg transition shadow-sm disabled:opacity-50 disabled:cursor-not-allowed;
   }
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 bg-navy-800/75 hover:bg-navy-700/90 text-ink font-medium
+    background-color: rgba(24, 42, 69, 0.68);
+    @apply inline-flex items-center justify-center gap-2 text-ink font-medium
            text-sm px-4 py-2.5 rounded-lg border border-line transition;
   }
+  .btn-secondary:hover {
+    background-color: rgba(33, 55, 85, 0.88);
+  }
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 text-ink-muted hover:text-ink hover:bg-navy-800/70
+    @apply inline-flex items-center justify-center gap-2 text-ink-muted hover:text-ink
            text-sm px-3 py-2 rounded-lg transition;
+  }
+  .btn-ghost:hover {
+    background-color: rgba(24, 42, 69, 0.62);
   }
 }
 
