@@ -73,13 +73,13 @@ export default function ClientsPage() {
                 className="input pl-9"
               />
             </div>
-            <div className="flex items-center gap-1 bg-cream-100 rounded-lg p-1 border border-line">
+            <div className="flex items-center gap-1 bg-navy-900/55 rounded-lg p-1 border border-line">
               {FILTERS.map((f) => (
                 <button
                   key={f.key}
                   onClick={() => setFilter(f.key)}
                   className={`text-xs px-3 py-1.5 rounded-md transition ${
-                    filter === f.key ? "bg-surface text-ink shadow-sm" : "text-ink-muted hover:text-ink"
+                    filter === f.key ? "bg-navy-700/88 text-ink shadow-[inset_0_0_0_1px_rgba(201,216,238,0.08)]" : "text-ink-muted hover:text-ink hover:bg-navy-800/60"
                   }`}
                 >
                   {f.label}
@@ -90,7 +90,7 @@ export default function ClientsPage() {
 
           <div className="card overflow-hidden">
             <table className="w-full text-sm">
-              <thead className="bg-cream-50 border-b border-line">
+              <thead className="bg-navy-900/55 border-b border-line">
                 <tr className="text-left text-xs uppercase tracking-wider text-ink-muted">
                   <th className="font-medium px-5 py-3">Client</th>
                   <th className="font-medium px-5 py-3">KYC</th>
@@ -106,12 +106,12 @@ export default function ClientsPage() {
                   const verified = cdocs.filter((d) => d.status === "verifie").length;
                   const issues = cdocs.filter((d) => d.status === "manquant" || d.status === "expire").length;
                   return (
-                    <tr key={c.id} className="border-b border-line last:border-0 hover:bg-cream-50/50 transition">
+                    <tr key={c.id} className="border-b border-line last:border-0 hover:bg-navy-800/45 transition">
                       <td className="px-5 py-4">
                         <Link href={`/clients/${c.id}`} className="flex items-center gap-3 group">
                           <Avatar name={`${c.firstName} ${c.lastName}`} />
                           <div className="min-w-0">
-                            <div className="font-medium text-ink group-hover:text-navy-700 truncate">
+                            <div className="font-medium text-ink group-hover:text-gold-400 truncate">
                               {c.firstName} {c.lastName}
                             </div>
                             <div className="text-xs text-ink-muted truncate">{c.email ?? c.phone ?? "—"}</div>
@@ -128,7 +128,7 @@ export default function ClientsPage() {
                       <td className="px-5 py-4 tabular-nums text-ink-muted">{formatEUR(c.financial?.netWorth)}</td>
                       <td className="px-5 py-4 text-ink-muted text-xs">{formatRelative(c.updatedAt)}</td>
                       <td className="px-5 py-4 text-right">
-                        <Link href={`/clients/${c.id}`} className="text-navy-600 hover:text-navy-700 inline-flex items-center gap-1 text-xs">
+                        <Link href={`/clients/${c.id}`} className="text-gold-400 hover:text-gold-500 inline-flex items-center gap-1 text-xs">
                           Ouvrir <ArrowUpRight className="w-3 h-3" />
                         </Link>
                       </td>

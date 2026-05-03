@@ -14,13 +14,13 @@ export function Topbar() {
   }).format(new Date());
 
   return (
-    <header className="h-16 bg-cream-50/70 backdrop-blur border-b border-line flex items-center px-8 sticky top-0 z-30">
+    <header className="h-16 bg-navy-900/72 backdrop-blur border-b border-line flex items-center px-8 sticky top-0 z-30">
       <div className="flex-1 max-w-xl">
         <div className="relative">
           <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-ink-subtle" strokeWidth={1.75} />
           <input
             placeholder="Rechercher un client, un document, une référence…"
-            className="w-full bg-surface border border-line rounded-lg pl-9 pr-3 py-2 text-sm placeholder:text-ink-subtle focus:outline-none focus:border-navy-600 focus:ring-2 focus:ring-navy-600/10"
+            className="w-full bg-navy-800/85 border border-line rounded-lg pl-9 pr-3 py-2 text-sm placeholder:text-ink-subtle focus:outline-none focus:border-gold-500/70 focus:ring-2 focus:ring-gold-500/10"
           />
         </div>
       </div>
@@ -31,7 +31,7 @@ export function Topbar() {
         </button>
         <Link
           href="/alertes"
-          className="relative inline-flex items-center gap-2 text-sm text-ink-muted hover:text-ink px-3 py-2 rounded-lg hover:bg-cream-100 transition"
+          className="relative inline-flex items-center gap-2 text-sm text-ink-muted hover:text-ink px-3 py-2 rounded-lg hover:bg-navy-800/75 transition"
         >
           <span className="relative">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">

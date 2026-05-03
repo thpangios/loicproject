@@ -77,7 +77,7 @@ export default function DashboardPage() {
               <h2 className="font-display text-lg text-ink">Clients récents</h2>
               <p className="text-xs text-ink-muted mt-0.5">Les derniers dossiers ouverts ou mis à jour</p>
             </div>
-            <Link href="/clients" className="text-xs text-navy-600 hover:text-navy-700 inline-flex items-center gap-1">
+            <Link href="/clients" className="text-xs text-gold-400 hover:text-gold-500 inline-flex items-center gap-1">
               Voir tout <ArrowUpRight className="w-3 h-3" />
             </Link>
           </div>
@@ -93,7 +93,7 @@ export default function DashboardPage() {
                 <Link
                   key={c.id}
                   href={`/clients/${c.id}`}
-                  className="flex items-center gap-4 px-2 py-3 rounded-lg hover:bg-cream-50 transition"
+                  className="flex items-center gap-4 px-2 py-3 rounded-lg hover:bg-navy-800/48 transition"
                 >
                   <Avatar name={`${c.firstName} ${c.lastName}`} />
                   <div className="flex-1 min-w-0">
@@ -112,7 +112,7 @@ export default function DashboardPage() {
         <div className="card p-6">
           <div className="flex items-center justify-between mb-5">
             <h2 className="font-display text-lg text-ink">Alertes prioritaires</h2>
-            <Link href="/alertes" className="text-xs text-navy-600 hover:text-navy-700">Voir tout</Link>
+            <Link href="/alertes" className="text-xs text-gold-400 hover:text-gold-500">Voir tout</Link>
           </div>
           {alerts.length === 0 ? (
             <div className="text-center py-8">
@@ -148,8 +148,8 @@ export default function DashboardPage() {
             <ol className="space-y-4">
               {activity.map((e) => (
                 <li key={e.id} className="flex items-start gap-3">
-                  <div className="w-7 h-7 rounded-full bg-cream-100 border border-line flex items-center justify-center shrink-0 mt-0.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-navy-600" />
+                  <div className="w-7 h-7 rounded-full bg-navy-800/82 border border-line flex items-center justify-center shrink-0 mt-0.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-gold-400" />
                   </div>
                   <div className="flex-1">
                     <div className="text-sm text-ink">{e.summary}</div>
@@ -161,7 +161,7 @@ export default function DashboardPage() {
           )}
         </div>
 
-        <div className="card p-6 bg-gradient-to-br from-navy-700 to-navy-800 text-cream-50 border-navy-700">
+        <div className="card p-6 bg-gradient-to-br from-navy-700 to-navy-900 text-cream-50 border-line">
           <div className="label text-gold-400 mb-3">Raccourcis IA</div>
           <h2 className="font-display text-xl text-cream-50 mb-2">Gagnez 10h par semaine</h2>
           <p className="text-sm text-navy-100 mb-5">

@@ -52,7 +52,7 @@ export default function SettingsPage() {
             <p className="text-xs text-ink-muted leading-relaxed mb-3">
               Efface toutes les données locales de cette instance (test/démo). Action irréversible.
             </p>
-            <button onClick={reset} className="btn-secondary text-danger border-[#ECC9C5] hover:bg-[#F5E2E0]/50">
+            <button onClick={reset} className="btn-secondary text-danger border-[rgba(217,117,106,0.22)] hover:bg-[rgba(217,117,106,0.12)]">
               <Trash2 className="w-4 h-4" /> Réinitialiser les données
             </button>
           </Card>
@@ -74,7 +74,7 @@ function Card({
   return (
     <div className="card p-6">
       <div className="flex items-center gap-2 mb-4">
-        <Icon className="w-4 h-4 text-navy-600" strokeWidth={1.75} />
+        <Icon className="w-4 h-4 text-gold-400" strokeWidth={1.75} />
         <h3 className="font-display text-base text-ink">{title}</h3>
       </div>
       <div className="space-y-4">{children}</div>
@@ -101,9 +101,9 @@ function Integration({
   detail: string;
 }) {
   const statusMap = {
-    actif: { label: "Actif", cls: "bg-[#E5F1EB] text-[#2F7A5C] border-[#CCE3D5]" },
-    non_configure: { label: "Non configuré", cls: "bg-cream-100 text-ink-muted border-cream-200" },
-    planifie: { label: "Planifié", cls: "bg-[#F4ECD8] text-[#7A5A22] border-[#E5D6AE]" },
+    actif: { label: "Actif", cls: "bg-[rgba(112,186,141,0.14)] text-success border-[rgba(112,186,141,0.22)]" },
+    non_configure: { label: "Non configuré", cls: "bg-navy-800/82 text-ink-muted border-line" },
+    planifie: { label: "Planifié", cls: "bg-[rgba(198,154,86,0.15)] text-gold-400 border-[rgba(198,154,86,0.22)]" },
   } as const;
   return (
     <div className="border border-line rounded-lg p-4 flex items-start justify-between gap-3">

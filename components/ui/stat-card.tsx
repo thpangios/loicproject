@@ -17,17 +17,17 @@ export function StatCard({
   className?: string;
 }) {
   const toneRing: Record<string, string> = {
-    default: "text-navy-600 bg-navy-50",
-    warning: "text-[#8C6B2C] bg-[#FBF1DE]",
-    success: "text-[#2F7A5C] bg-[#E5F1EB]",
-    danger: "text-[#A8413A] bg-[#F5E2E0]",
+    default: "text-gold-400 bg-navy-800/88 border border-line",
+    warning: "text-warning bg-[rgba(214,168,93,0.14)] border border-[rgba(214,168,93,0.18)]",
+    success: "text-success bg-[rgba(112,186,141,0.14)] border border-[rgba(112,186,141,0.18)]",
+    danger: "text-danger bg-[rgba(217,117,106,0.14)] border border-[rgba(217,117,106,0.18)]",
   };
   return (
-    <div className={cn("card p-5", className)}>
+    <div className={cn("card p-5 kpi", className)}>
       <div className="flex items-start justify-between">
         <div>
           <div className="label">{label}</div>
-          <div className="font-display text-3xl text-ink mt-2 tabular-nums leading-none">{value}</div>
+          <div className="font-display text-3xl text-ink mt-2 tabular-nums leading-none kpi-value">{value}</div>
           {hint && <div className="text-xs text-ink-muted mt-2">{hint}</div>}
         </div>
         {Icon && (

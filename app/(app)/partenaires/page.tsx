@@ -40,7 +40,7 @@ export default function PartnersPage() {
           return (
             <div key={p.name} className="card p-5">
               <div className="flex items-center gap-2.5 mb-3">
-                <div className="w-9 h-9 rounded-lg bg-navy-50 text-navy-700 flex items-center justify-center">
+                <div className="w-9 h-9 rounded-lg bg-navy-800/82 text-gold-400 border border-line flex items-center justify-center">
                   <Building2 className="w-4 h-4" />
                 </div>
                 <div>
@@ -50,7 +50,7 @@ export default function PartnersPage() {
               </div>
               <div className="flex items-center justify-between text-xs">
                 <span className="text-ink-muted">{p.integration}</span>
-                <span className="font-medium text-navy-700 tabular-nums">{count} dossier{count > 1 ? "s" : ""}</span>
+                <span className="font-medium text-gold-400 tabular-nums">{count} dossier{count > 1 ? "s" : ""}</span>
               </div>
             </div>
           );
@@ -67,7 +67,7 @@ export default function PartnersPage() {
       ) : (
         <div className="card overflow-hidden">
           <table className="w-full text-sm">
-            <thead className="bg-cream-50 border-b border-line text-xs uppercase tracking-wider text-ink-muted">
+            <thead className="bg-navy-900/55 border-b border-line text-xs uppercase tracking-wider text-ink-muted">
               <tr>
                 <th className="text-left font-medium px-5 py-3">Client</th>
                 <th className="text-left font-medium px-5 py-3">Partenaire</th>
@@ -80,9 +80,9 @@ export default function PartnersPage() {
               {submissions.map((s) => {
                 const idx = submissionSteps.indexOf(s.status);
                 return (
-                  <tr key={s.id} className="border-b border-line last:border-0 hover:bg-cream-50/50">
+                  <tr key={s.id} className="border-b border-line last:border-0 hover:bg-navy-800/45">
                     <td className="px-5 py-3">
-                      <Link href={`/clients/${s.clientId}`} className="text-ink hover:text-navy-700">
+                      <Link href={`/clients/${s.clientId}`} className="text-ink hover:text-gold-400">
                         {clientName(s.clientId)}
                       </Link>
                     </td>
@@ -90,7 +90,7 @@ export default function PartnersPage() {
                     <td className="px-5 py-3 w-64">
                       <div className="flex items-center gap-1">
                         {submissionSteps.map((step, i) => (
-                          <div key={step} className={`h-1.5 flex-1 rounded-full ${i <= idx ? "bg-navy-600" : "bg-cream-200"}`} />
+                          <div key={step} className={`h-1.5 flex-1 rounded-full ${i <= idx ? "bg-gold-500" : "bg-navy-700/70"}`} />
                         ))}
                       </div>
                     </td>

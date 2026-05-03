@@ -97,7 +97,7 @@ export default function IntakePage() {
           </div>
 
           <div className="space-y-4">
-            <div className="card p-6 bg-gradient-to-br from-navy-700 to-navy-800 text-cream-50 border-navy-700">
+            <div className="card p-6 bg-gradient-to-br from-navy-700 to-navy-900 text-cream-50 border-line">
               <Sparkles className="w-6 h-6 text-gold-400 mb-3" strokeWidth={1.5} />
               <h3 className="font-display text-lg text-cream-50 mb-2">Comment ça marche</h3>
               <ol className="space-y-2.5 text-sm text-navy-100">
@@ -120,13 +120,13 @@ export default function IntakePage() {
 
       {phase === "review" && extracted && (
         <div className="space-y-6">
-          <div className="card p-5 bg-navy-50 border-navy-100 flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-navy-600 text-cream-50 flex items-center justify-center">
+          <div className="card p-5 bg-navy-800/82 border-line flex items-center gap-3">
+            <div className="w-10 h-10 rounded-lg bg-gold-500 text-navy-900 flex items-center justify-center">
               <Sparkles className="w-5 h-5" />
             </div>
             <div className="flex-1">
-              <div className="font-medium text-navy-700">Extraction terminée</div>
-              <div className="text-xs text-navy-700/70 mt-0.5">
+              <div className="font-medium text-ink">Extraction terminée</div>
+              <div className="text-xs text-ink-muted mt-0.5">
                 {fieldsCount} champ{fieldsCount > 1 ? "s" : ""} détecté{fieldsCount > 1 ? "s" : ""}. Vérifiez et corrigez si nécessaire avant d'enregistrer.
               </div>
             </div>

@@ -112,7 +112,7 @@ export default function ClientDetailPage() {
         <div className="flex items-start gap-4">
           <Avatar name={fullName} size={56} />
           <div>
-            <div className="label text-gold-600 mb-1">Dossier client</div>
+            <div className="label text-gold-400 mb-1">Dossier client</div>
             <h1 className="font-display text-3xl text-ink leading-tight tracking-tight">{fullName}</h1>
             <div className="flex items-center gap-3 mt-2 text-sm text-ink-muted">
               <Badge tone={kycStatusTone[client.kycStatus]}>{kycStatusLabel[client.kycStatus]}</Badge>
@@ -124,7 +124,7 @@ export default function ClientDetailPage() {
           </div>
         </div>
         <div className="flex items-center gap-2 shrink-0">
-          <button onClick={deleteClient} className="btn-ghost text-danger hover:bg-[#F5E2E0]/50">
+          <button onClick={deleteClient} className="btn-ghost text-danger hover:bg-[rgba(217,117,106,0.12)]">
             <Trash2 className="w-4 h-4" /> Supprimer
           </button>
           <Link href={`/intake?clientId=${id}`} className="btn-secondary">
@@ -144,11 +144,11 @@ export default function ClientDetailPage() {
             key={t.k}
             onClick={() => setTab(t.k as typeof tab)}
             className={`px-4 py-2.5 text-sm transition relative ${
-              tab === t.k ? "text-navy-700 font-medium" : "text-ink-muted hover:text-ink"
+              tab === t.k ? "text-gold-400 font-medium" : "text-ink-muted hover:text-ink"
             }`}
           >
             {t.label}
-            {tab === t.k && <span className="absolute bottom-[-1px] left-2 right-2 h-0.5 bg-navy-700 rounded-full" />}
+            {tab === t.k && <span className="absolute bottom-[-1px] left-2 right-2 h-0.5 bg-gold-500 rounded-full" />}
           </button>
         ))}
       </div>
@@ -204,7 +204,7 @@ export default function ClientDetailPage() {
                     key={s}
                     onClick={() => setKyc(s)}
                     className={`w-full flex items-center justify-between text-left px-3 py-2 rounded-lg text-sm transition ${
-                      client.kycStatus === s ? "bg-navy-50 text-navy-700 border border-navy-100" : "hover:bg-cream-50 border border-transparent"
+                      client.kycStatus === s ? "bg-navy-800/82 text-gold-400 border border-line" : "hover:bg-navy-800/60 border border-transparent"
                     }`}
                   >
                     <span>{kycStatusLabel[s]}</span>
@@ -301,7 +301,7 @@ export default function ClientDetailPage() {
                           <div className="text-xs text-ink-muted mt-1">Aucune génération</div>
                         )}
                       </div>
-                      <FileText className="w-4 h-4 text-navy-400" />
+                      <FileText className="w-4 h-4 text-gold-400" />
                     </div>
                     <div className="flex items-center gap-2 mt-3">
                       {!existing ? (
@@ -355,7 +355,7 @@ export default function ClientDetailPage() {
                     <li key={s.id} className="border border-line rounded-lg p-4">
                       <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-2.5">
-                          <div className="w-8 h-8 rounded-lg bg-navy-50 text-navy-700 flex items-center justify-center">
+                          <div className="w-8 h-8 rounded-lg bg-navy-800/82 text-gold-400 border border-line flex items-center justify-center">
                             <Building2 className="w-4 h-4" />
                           </div>
                           <div>
@@ -369,14 +369,14 @@ export default function ClientDetailPage() {
                         {submissionSteps.map((step, i) => (
                           <div
                             key={step}
-                            className={`h-1.5 flex-1 rounded-full ${i <= idx ? "bg-navy-600" : "bg-cream-200"}`}
+                            className={`h-1.5 flex-1 rounded-full ${i <= idx ? "bg-gold-500" : "bg-navy-700/70"}`}
                           />
                         ))}
                       </div>
                       {next && (
                         <button
                           onClick={() => submissionsRepo.update(s.id, { status: next })}
-                          className="text-xs text-navy-600 hover:text-navy-700 mt-2"
+                          className="text-xs text-gold-400 hover:text-gold-500 mt-2"
                         >
                           Passer à : {submissionStatusLabel[next]} →
                         </button>

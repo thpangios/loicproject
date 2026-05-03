@@ -54,7 +54,7 @@ export default function DocumentsPage() {
 
           <div className="card overflow-hidden">
             <table className="w-full text-sm">
-              <thead className="bg-cream-50 border-b border-line text-xs uppercase tracking-wider text-ink-muted">
+              <thead className="bg-navy-900/55 border-b border-line text-xs uppercase tracking-wider text-ink-muted">
                 <tr>
                   <th className="text-left font-medium px-5 py-3">Client</th>
                   <th className="text-left font-medium px-5 py-3">Type</th>
@@ -66,9 +66,9 @@ export default function DocumentsPage() {
               </thead>
               <tbody>
                 {docs.map((d) => (
-                  <tr key={d.id} className="border-b border-line last:border-0 hover:bg-cream-50/50">
+                  <tr key={d.id} className="border-b border-line last:border-0 hover:bg-navy-800/45">
                     <td className="px-5 py-3">
-                      <Link href={`/clients/${d.clientId}`} className="text-ink hover:text-navy-700">
+                      <Link href={`/clients/${d.clientId}`} className="text-ink hover:text-gold-400">
                         {clientName(d.clientId)}
                       </Link>
                     </td>
@@ -109,9 +109,9 @@ function Pill({
   tone: "warning" | "success" | "danger";
 }) {
   const map = {
-    warning: "text-[#8C6B2C] bg-[#FBF1DE]",
-    success: "text-[#2F7A5C] bg-[#E5F1EB]",
-    danger: "text-[#A8413A] bg-[#F5E2E0]",
+    warning: "text-warning bg-[rgba(214,168,93,0.14)] border border-[rgba(214,168,93,0.18)]",
+    success: "text-success bg-[rgba(112,186,141,0.14)] border border-[rgba(112,186,141,0.18)]",
+    danger: "text-danger bg-[rgba(217,117,106,0.14)] border border-[rgba(217,117,106,0.18)]",
   };
   return (
     <div className="card p-4 flex items-center gap-3">

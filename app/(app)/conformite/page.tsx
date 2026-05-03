@@ -63,7 +63,7 @@ export default function CompliancePage() {
       ) : (
         <div className="card overflow-hidden">
           <table className="w-full text-sm">
-            <thead className="bg-cream-50 border-b border-line text-xs uppercase tracking-wider text-ink-muted">
+            <thead className="bg-navy-900/55 border-b border-line text-xs uppercase tracking-wider text-ink-muted">
               <tr>
                 <th className="text-left font-medium px-5 py-3">Client</th>
                 <th className="text-left font-medium px-5 py-3">Document</th>
@@ -74,9 +74,9 @@ export default function CompliancePage() {
             </thead>
             <tbody>
               {compliance.map((d) => (
-                <tr key={d.id} className="border-b border-line last:border-0 hover:bg-cream-50/50">
+                <tr key={d.id} className="border-b border-line last:border-0 hover:bg-navy-800/45">
                   <td className="px-5 py-3">
-                    <Link href={`/clients/${d.clientId}`} className="text-ink hover:text-navy-700">
+                    <Link href={`/clients/${d.clientId}`} className="text-ink hover:text-gold-400">
                       {clientName(d.clientId)}
                     </Link>
                   </td>
