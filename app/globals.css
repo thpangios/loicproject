@@ -4,69 +4,165 @@
 
 :root {
   color-scheme: dark;
+  --bg-base: #08111f;
+  --bg-soft: #0d1a2d;
+  --panel-top: rgba(24, 38, 61, 0.9);
+  --panel-bottom: rgba(11, 20, 34, 0.96);
 }
 
-html, body {
-  background-color: #12203A;
-  color: #EDF3FF;
-  font-feature-settings: "ss01", "cv11";
+html,
+body {
+  min-height: 100%;
+  background-color: var(--bg-base);
+  color: #f2f6ff;
+  font-feature-settings: "ss01", "cv11", "tnum";
   -webkit-font-smoothing: antialiased;
 }
 
 body {
-  font-family: var(--font-inter), system-ui, sans-serif;
-  min-height: 100vh;
+  font-family: var(--font-sans), system-ui, sans-serif;
   background:
-    radial-gradient(1200px 640px at 8% -14%, rgba(198, 154, 86, 0.12), transparent 58%),
-    radial-gradient(980px 560px at 104% 4%, rgba(126, 155, 196, 0.18), transparent 60%),
-    linear-gradient(180deg, #1A2E4C 0%, #142440 34%, #0D1830 68%, #0A1324 100%);
+    radial-gradient(960px 520px at -6% -10%, rgba(111, 211, 225, 0.14), transparent 58%),
+    radial-gradient(780px 460px at 100% -8%, rgba(215, 155, 71, 0.16), transparent 56%),
+    radial-gradient(980px 660px at 50% 0%, rgba(62, 93, 146, 0.22), transparent 62%),
+    linear-gradient(180deg, #0f1c31 0%, #0a1324 42%, #08111f 100%);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 120px 120px;
+  mask-image: radial-gradient(circle at center, black 35%, transparent 85%);
+  opacity: 0.16;
+}
+
+a,
+button,
+input,
+select,
+textarea {
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease,
+    opacity 160ms ease;
 }
 
 ::selection {
-  background: rgba(198, 154, 86, 0.32);
-  color: #EDF3FF;
+  background: rgba(232, 190, 120, 0.28);
+  color: #fff9ef;
+}
+
+@layer base {
+  * {
+    @apply border-line;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    letter-spacing: -0.03em;
+  }
 }
 
 @layer components {
   .card {
-    background: linear-gradient(180deg, rgba(35, 58, 91, 0.9) 0%, rgba(24, 43, 70, 0.95) 100%);
-    @apply border border-line rounded-xl shadow-card backdrop-blur-sm;
+    position: relative;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0) 22%),
+      linear-gradient(180deg, var(--panel-top) 0%, var(--panel-bottom) 100%);
+    @apply rounded-2xl border border-line/90 shadow-card backdrop-blur-xl;
   }
+
+  .card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
   .card-hover {
-    @apply hover:shadow-elevated hover:border-navy-300/60 transition-all;
+    @apply hover:-translate-y-0.5 hover:shadow-elevated hover:border-navy-300/55;
   }
+
   .label {
-    @apply text-[10px] font-semibold uppercase tracking-[0.18em] text-ink-subtle;
+    @apply text-[10px] font-semibold uppercase tracking-[0.24em] text-ink-subtle;
   }
+
   .input {
-    background-color: rgba(24, 42, 69, 0.72);
-    @apply w-full border border-line rounded-lg px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-subtle
-           focus:outline-none focus:border-gold-500/70 focus:ring-2 focus:ring-gold-500/10 transition;
+    background: linear-gradient(180deg, rgba(16, 27, 45, 0.92), rgba(10, 19, 36, 0.95));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    @apply w-full rounded-xl border border-line px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-subtle
+      focus:outline-none focus:border-gold-500/70 focus:ring-4 focus:ring-gold-500/10;
   }
+
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 bg-gold-500 hover:bg-gold-400 text-navy-900 font-semibold
-           text-sm px-4 py-2.5 rounded-lg transition shadow-sm disabled:opacity-50 disabled:cursor-not-allowed;
+    background: linear-gradient(180deg, #e8be78 0%, #d79b47 100%);
+    box-shadow: 0 12px 30px rgba(215, 155, 71, 0.24);
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-navy-900
+      hover:-translate-y-0.5 hover:shadow-[0_16px_36px_rgba(215,155,71,0.28)] disabled:cursor-not-allowed disabled:opacity-50;
   }
+
   .btn-secondary {
-    background-color: rgba(24, 42, 69, 0.68);
-    @apply inline-flex items-center justify-center gap-2 text-ink font-medium
-           text-sm px-4 py-2.5 rounded-lg border border-line transition;
+    background: linear-gradient(180deg, rgba(21, 33, 53, 0.96), rgba(11, 20, 34, 0.92));
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-line px-4 py-2.5 text-sm font-medium text-ink
+      hover:border-navy-300/55 hover:bg-navy-800/90 hover:text-cream-50;
   }
-  .btn-secondary:hover {
-    background-color: rgba(33, 55, 85, 0.88);
-  }
+
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 text-ink-muted hover:text-ink
-           text-sm px-3 py-2 rounded-lg transition;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-3 py-2 text-sm text-ink-muted hover:bg-navy-800/60 hover:text-ink;
   }
-  .btn-ghost:hover {
-    background-color: rgba(24, 42, 69, 0.62);
+
+  .metric-tile {
+    @apply card card-hover p-5;
+  }
+
+  .table-shell {
+    @apply card overflow-hidden;
+  }
+
+  .section-stack {
+    @apply space-y-6;
   }
 }
 
 @layer utilities {
-  .scrollbar-thin::-webkit-scrollbar { width: 8px; height: 8px; }
-  .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
-  .scrollbar-thin::-webkit-scrollbar-thumb { background: rgba(168, 181, 207, 0.22); border-radius: 4px; }
-  .scrollbar-thin::-webkit-scrollbar-thumb:hover { background: rgba(198, 154, 86, 0.35); }
+  .text-gradient-gold {
+    background: linear-gradient(135deg, #fff2d0 0%, #e8be78 42%, #d79b47 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .bg-panel-ring {
+    background-image: radial-gradient(circle at top left, rgba(111, 211, 225, 0.12), transparent 35%);
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: rgba(174, 187, 214, 0.22);
+    border-radius: 999px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: rgba(232, 190, 120, 0.42);
+  }
 }

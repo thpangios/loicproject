@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { Bell, CheckCircle2, AlertTriangle } from "lucide-react";
+import { Bell, CheckCircle2, AlertTriangle, ShieldAlert, Clock3 } from "lucide-react";
 import { PageHeader } from "@/components/ui/page-header";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Badge } from "@/components/ui/badge";
+import { StatCard } from "@/components/ui/stat-card";
 import { useStore } from "@/lib/db/use-store";
 import { alertsRepo, clientsRepo } from "@/lib/db/repo";
 import { formatRelative } from "@/lib/utils";
@@ -15,6 +16,8 @@ export default function AlertsPage() {
 
   const open = alerts.filter((a) => !a.resolved);
   const resolved = alerts.filter((a) => a.resolved);
+  const critical = open.filter((a) => a.severity === "critical").length;
+  const warning = open.filter((a) => a.severity === "warning").length;
 
   function clientName(id?: string) {
     if (!id) return null;
@@ -38,9 +41,16 @@ export default function AlertsPage() {
         />
       ) : (
         <>
+          <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <StatCard label="Alertes ouvertes" value={open.length} hint="Charge actuelle de suivi" delta="Monitoring continu" icon={Bell} tone="warning" />
+            <StatCard label="Critiques" value={critical} hint="Blocages ou risques immediats" delta="SLA prioritaire" icon={ShieldAlert} tone="danger" />
+            <StatCard label="Avertissements" value={warning} hint="A traiter rapidement" delta="Suivi proactif" icon={Clock3} />
+            <StatCard label="Resolues" value={resolved.length} hint="Historique recent" delta="Execution propre" icon={CheckCircle2} tone="success" />
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-            <Stat label="Critiques" value={open.filter((a) => a.severity === "critical").length} tone="danger" />
-            <Stat label="Avertissements" value={open.filter((a) => a.severity === "warning").length} tone="warning" />
+            <Stat label="Critiques" value={critical} tone="danger" />
+            <Stat label="Avertissements" value={warning} tone="warning" />
             <Stat label="Résolues" value={resolved.length} tone="success" />
           </div>
 

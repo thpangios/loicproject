@@ -31,6 +31,16 @@ export function formatEUR(n: number | undefined | null) {
   return new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR", maximumFractionDigits: 0 }).format(n);
 }
 
+export function formatNumber(n: number | undefined | null) {
+  if (n === undefined || n === null) return "—";
+  return new Intl.NumberFormat("fr-FR").format(n);
+}
+
+export function formatCompactNumber(n: number | undefined | null) {
+  if (n === undefined || n === null) return "—";
+  return new Intl.NumberFormat("fr-FR", { notation: "compact", maximumFractionDigits: 1 }).format(n);
+}
+
 export function initials(name: string) {
   return name
     .split(/\s+/)

@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { ScrollText, Sparkles } from "lucide-react";
+import { ScrollText, Sparkles, ShieldCheck, FileClock, Send } from "lucide-react";
 import { PageHeader } from "@/components/ui/page-header";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Badge } from "@/components/ui/badge";
+import { StatCard } from "@/components/ui/stat-card";
 import { useStore } from "@/lib/db/use-store";
 import { clientsRepo, complianceRepo } from "@/lib/db/repo";
 import {
@@ -29,6 +30,11 @@ export default function CompliancePage() {
     rapport_adequation: compliance.filter((d) => d.type === "rapport_adequation").length,
     comparatif_produits: compliance.filter((d) => d.type === "comparatif_produits").length,
   };
+  const byStatus = {
+    brouillon: compliance.filter((record) => record.status === "brouillon").length,
+    valide: compliance.filter((record) => record.status === "valide").length,
+    envoye: compliance.filter((record) => record.status === "envoye").length,
+  };
 
   return (
     <>
@@ -37,6 +43,13 @@ export default function CompliancePage() {
         title="Conformité"
         description="Génération assistée par IA des quatre documents réglementaires : compte rendu, lettre de mission, rapport d'adéquation, comparatif produits."
       />
+
+      <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <StatCard label="Documents generes" value={compliance.length} hint="Production reglementaire totale" delta="Bibliotheque active" icon={ScrollText} />
+        <StatCard label="Valides" value={byStatus.valide} hint="Prets pour diffusion" delta="Qualite elevee" icon={ShieldCheck} tone="success" />
+        <StatCard label="En brouillon" value={byStatus.brouillon} hint="A relire et finaliser" delta="Flux de travail IA" icon={FileClock} tone="warning" />
+        <StatCard label="Envoyes" value={byStatus.envoye} hint="Partages avec les clients" delta="Suivi trace" icon={Send} />
+      </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {([
@@ -61,7 +74,7 @@ export default function CompliancePage() {
           action={<Link href="/clients" className="btn-primary"><Sparkles className="w-4 h-4" /> Choisir un client</Link>}
         />
       ) : (
-        <div className="card overflow-hidden">
+        <div className="table-shell">
           <table className="w-full text-sm">
             <thead className="bg-navy-900/55 border-b border-line text-xs uppercase tracking-wider text-ink-muted">
               <tr>

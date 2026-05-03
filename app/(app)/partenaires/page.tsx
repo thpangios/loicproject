@@ -1,14 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { Building2 } from "lucide-react";
+import { Building2, Landmark, Wallet, CheckCircle2 } from "lucide-react";
 import { PageHeader } from "@/components/ui/page-header";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Badge } from "@/components/ui/badge";
+import { StatCard } from "@/components/ui/stat-card";
 import { useStore } from "@/lib/db/use-store";
 import { clientsRepo, submissionsRepo } from "@/lib/db/repo";
 import { submissionStatusLabel, submissionSteps } from "@/lib/labels";
-import { formatRelative } from "@/lib/utils";
+import { formatEUR, formatRelative } from "@/lib/utils";
 
 const PARTNERS_INFO: { name: string; type: string; integration: string }[] = [
   { name: "Cardif (BNP Paribas)", type: "Assurance vie", integration: "API" },
@@ -20,6 +21,9 @@ const PARTNERS_INFO: { name: string; type: string; integration: string }[] = [
 export default function PartnersPage() {
   const submissions = useStore(() => submissionsRepo.list());
   const clients = useStore(() => clientsRepo.list());
+  const pipelineValue = submissions.reduce((sum, submission) => sum + (submission.amount ?? 0), 0);
+  const completed = submissions.filter((submission) => submission.status === "termine").length;
+  const liveDeals = submissions.filter((submission) => submission.status !== "termine").length;
 
   function clientName(id: string) {
     const c = clients.find((x) => x.id === id);
@@ -33,6 +37,13 @@ export default function PartnersPage() {
         title="Partenaires"
         description="Pipeline de soumissions auprès des assureurs et banques partenaires : préparation, envoi, fonds reçus, contrat créé, accès activé."
       />
+
+      <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <StatCard label="Partenaires actifs" value={PARTNERS_INFO.length} hint="Assureurs et banques suivis" delta="Mix premium" icon={Landmark} />
+        <StatCard label="Deals en cours" value={liveDeals} hint="Dossiers ouverts dans le pipeline" delta="Execution continue" icon={Building2} tone="warning" />
+        <StatCard label="Volume pilote" value={formatEUR(pipelineValue)} hint="Montants engages ou en suivi" delta="Focus patrimonial" icon={Wallet} />
+        <StatCard label="Termines" value={completed} hint="Soumissions finalisees" delta="Trajectoire positive" icon={CheckCircle2} tone="success" />
+      </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {PARTNERS_INFO.map((p) => {
@@ -65,7 +76,7 @@ export default function PartnersPage() {
           action={<Link href="/clients" className="btn-primary">Voir les clients</Link>}
         />
       ) : (
-        <div className="card overflow-hidden">
+        <div className="table-shell">
           <table className="w-full text-sm">
             <thead className="bg-navy-900/55 border-b border-line text-xs uppercase tracking-wider text-ink-muted">
               <tr>

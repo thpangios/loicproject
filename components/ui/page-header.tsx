@@ -14,13 +14,13 @@ export function PageHeader({
   className?: string;
 }) {
   return (
-    <div className={cn("flex items-end justify-between gap-6 mb-8", className)}>
-      <div>
-        {eyebrow && <div className="label text-gold-400 mb-2">{eyebrow}</div>}
-        <h1 className="font-display text-3xl md:text-[40px] text-ink tracking-tight leading-tight">{title}</h1>
-        {description && <p className="text-sm text-ink-muted mt-2 max-w-2xl">{description}</p>}
+    <div className={cn("mb-8 flex flex-col gap-5 md:flex-row md:items-end md:justify-between", className)}>
+      <div className="max-w-3xl">
+        {eyebrow && <div className="label mb-2 text-gold-400">{eyebrow}</div>}
+        <h1 className="font-display text-3xl leading-tight text-ink md:text-[44px]">{title}</h1>
+        {description && <p className="mt-3 max-w-2xl text-sm leading-6 text-ink-muted md:text-[15px]">{description}</p>}
       </div>
-      {actions && <div className="flex items-center gap-2 shrink-0">{actions}</div>}
+      {actions && <div className="flex shrink-0 flex-wrap items-center gap-2">{actions}</div>}
     </div>
   );
 }

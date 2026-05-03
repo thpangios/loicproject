@@ -2,12 +2,16 @@
 
 import { Database, Trash2, Settings as SettingsIcon, Shield } from "lucide-react";
 import { PageHeader } from "@/components/ui/page-header";
-import { resetAll } from "@/lib/db/repo";
+import { resetAll, seedDemoData } from "@/lib/db/repo";
 
 export default function SettingsPage() {
   function reset() {
     if (!confirm("Réinitialiser toutes les données locales (clients, documents, soumissions, alertes) ?")) return;
     resetAll();
+  }
+
+  function reloadDemo() {
+    seedDemoData(true);
   }
 
   return (
@@ -52,6 +56,9 @@ export default function SettingsPage() {
             <p className="text-xs text-ink-muted leading-relaxed mb-3">
               Efface toutes les données locales de cette instance (test/démo). Action irréversible.
             </p>
+            <button onClick={reloadDemo} className="btn-primary mb-3 w-full">
+              Recharger les données démo premium
+            </button>
             <button onClick={reset} className="btn-secondary text-danger border-[rgba(217,117,106,0.22)] hover:bg-[rgba(217,117,106,0.12)]">
               <Trash2 className="w-4 h-4" /> Réinitialiser les données
             </button>

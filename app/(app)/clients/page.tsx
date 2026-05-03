@@ -2,15 +2,16 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { Search, Filter, Users, ArrowUpRight } from "lucide-react";
+import { Search, Users, ArrowUpRight, ShieldCheck, Wallet, Clock3 } from "lucide-react";
 import { PageHeader } from "@/components/ui/page-header";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Badge } from "@/components/ui/badge";
 import { Avatar } from "@/components/ui/avatar";
+import { StatCard } from "@/components/ui/stat-card";
 import { useStore } from "@/lib/db/use-store";
 import { clientsRepo, documentsRepo } from "@/lib/db/repo";
 import { kycStatusLabel, kycStatusTone } from "@/lib/labels";
-import { formatRelative, formatEUR } from "@/lib/utils";
+import { formatCompactNumber, formatRelative, formatEUR } from "@/lib/utils";
 import type { KycStatus } from "@/lib/db/types";
 
 const FILTERS: { key: KycStatus | "all"; label: string }[] = [
@@ -35,6 +36,10 @@ export default function ClientsPage() {
       return hay.includes(q.toLowerCase());
     });
   }, [clients, q, filter]);
+
+  const complete = clients.filter((client) => client.kycStatus === "complet").length;
+  const totalAum = clients.reduce((sum, client) => sum + (client.financial?.netWorth ?? 0), 0);
+  const docsToReview = docs.filter((doc) => doc.status === "en_attente" || doc.status === "manquant" || doc.status === "expire").length;
 
   return (
     <>
@@ -63,7 +68,14 @@ export default function ClientsPage() {
         />
       ) : (
         <>
-          <div className="card p-4 mb-4 flex items-center gap-3 flex-wrap">
+          <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <StatCard label="Portefeuille clients" value={clients.length} hint={`${filtered.length} visibles`} delta="+2 cette semaine" icon={Users} />
+            <StatCard label="Dossiers complets" value={complete} hint={`${Math.round((complete / clients.length) * 100)}% de completion`} delta="Parcours stable" icon={ShieldCheck} tone="success" />
+            <StatCard label="Patrimoine agrege" value={formatCompactNumber(totalAum)} hint="Net worth cumule" delta="Segment premium" icon={Wallet} />
+            <StatCard label="Actions ouvertes" value={docsToReview} hint="Documents et suivis a traiter" delta="Priorisation IA" icon={Clock3} tone="warning" />
+          </div>
+
+          <div className="card mb-4 flex flex-wrap items-center gap-3 p-4">
             <div className="relative flex-1 min-w-[260px]">
               <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-ink-subtle" strokeWidth={1.75} />
               <input
@@ -73,13 +85,13 @@ export default function ClientsPage() {
                 className="input pl-9"
               />
             </div>
-            <div className="flex items-center gap-1 bg-navy-900/55 rounded-lg p-1 border border-line">
+            <div className="flex items-center gap-1 rounded-2xl border border-line bg-navy-900/55 p-1">
               {FILTERS.map((f) => (
                 <button
                   key={f.key}
                   onClick={() => setFilter(f.key)}
-                  className={`text-xs px-3 py-1.5 rounded-md transition ${
-                    filter === f.key ? "bg-navy-700/88 text-ink shadow-[inset_0_0_0_1px_rgba(201,216,238,0.08)]" : "text-ink-muted hover:text-ink hover:bg-navy-800/60"
+                  className={`rounded-xl px-3 py-1.5 text-xs transition ${
+                    filter === f.key ? "bg-navy-700/88 text-ink shadow-[inset_0_0_0_1px_rgba(201,216,238,0.08)]" : "text-ink-muted hover:bg-navy-800/60 hover:text-ink"
                   }`}
                 >
                   {f.label}
@@ -88,9 +100,9 @@ export default function ClientsPage() {
             </div>
           </div>
 
-          <div className="card overflow-hidden">
+          <div className="table-shell">
             <table className="w-full text-sm">
-              <thead className="bg-navy-900/55 border-b border-line">
+              <thead className="border-b border-line bg-navy-900/55">
                 <tr className="text-left text-xs uppercase tracking-wider text-ink-muted">
                   <th className="font-medium px-5 py-3">Client</th>
                   <th className="font-medium px-5 py-3">KYC</th>
@@ -122,7 +134,7 @@ export default function ClientsPage() {
                         <Badge tone={kycStatusTone[c.kycStatus]}>{kycStatusLabel[c.kycStatus]}</Badge>
                       </td>
                       <td className="px-5 py-4">
-                        <div className="text-ink tabular-nums">{verified}/{cdocs.length || 4}</div>
+                        <div className="text-ink tabular-nums">{verified}/{Math.max(cdocs.length, 4)}</div>
                         {issues > 0 && <div className="text-xs text-danger mt-0.5">{issues} à traiter</div>}
                       </td>
                       <td className="px-5 py-4 tabular-nums text-ink-muted">{formatEUR(c.financial?.netWorth)}</td>
@@ -137,11 +149,11 @@ export default function ClientsPage() {
                 })}
               </tbody>
             </table>
-            {filtered.length === 0 && (
-              <div className="px-6 py-12 text-center text-sm text-ink-muted">
-                Aucun résultat pour ces critères.
-              </div>
-            )}
+              {filtered.length === 0 && (
+                <div className="px-6 py-12 text-center text-sm text-ink-muted">
+                  Aucun résultat pour ces critères.
+                </div>
+              )}
           </div>
         </>
       )}

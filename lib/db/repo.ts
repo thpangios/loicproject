@@ -9,6 +9,7 @@ import type {
   DocumentRecord,
   Submission,
 } from "./types";
+import { buildDemoSeed } from "./demo-data";
 
 const KEYS = {
   clients: "cogni:clients",
@@ -18,6 +19,10 @@ const KEYS = {
   alerts: "cogni:alerts",
   activity: "cogni:activity",
 } as const;
+
+const DEMO_SEED_VERSION = "crm-premium-v1";
+const DEMO_SEED_VERSION_KEY = "cogni:demo-seed-version";
+const DEMO_SEED_STATE_KEY = "cogni:demo-seed-state";
 
 type Key = keyof typeof KEYS;
 
@@ -31,10 +36,17 @@ function read<T>(key: Key): T[] {
   }
 }
 
-function write<T>(key: Key, value: T[]) {
+function broadcast(key: Key | "all") {
+  if (typeof window === "undefined") return;
+  window.dispatchEvent(new CustomEvent("cogni:changed", { detail: { key } }));
+}
+
+function write<T>(key: Key, value: T[], notify = true) {
   if (typeof window === "undefined") return;
   window.localStorage.setItem(KEYS[key], JSON.stringify(value));
-  window.dispatchEvent(new CustomEvent("cogni:changed", { detail: { key } }));
+  if (notify) {
+    broadcast(key);
+  }
 }
 
 const subscribers = new Set<() => void>();
@@ -49,10 +61,52 @@ export function subscribe(fn: () => void) {
   return () => subscribers.delete(fn);
 }
 
+function hasStoredBusinessData() {
+  return (Object.keys(KEYS) as Key[]).some((key) => {
+    try {
+      const raw = window.localStorage.getItem(KEYS[key]);
+      if (!raw) return false;
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) && parsed.length > 0;
+    } catch {
+      return false;
+    }
+  });
+}
+
 function logActivity(ev: Omit<ActivityEvent, "id" | "at">) {
   const list = read<ActivityEvent>("activity");
   list.unshift({ ...ev, id: uid(), at: new Date().toISOString() });
   write("activity", list.slice(0, 200));
+}
+
+export function seedDemoData(force = false) {
+  if (typeof window === "undefined") return;
+  if (!force && hasStoredBusinessData()) return;
+
+  const seed = buildDemoSeed();
+  write("clients", seed.clients, false);
+  write("documents", seed.documents, false);
+  write("compliance", seed.compliance, false);
+  write("submissions", seed.submissions, false);
+  write("alerts", seed.alerts, false);
+  write("activity", seed.activity, false);
+  window.localStorage.setItem(DEMO_SEED_VERSION_KEY, DEMO_SEED_VERSION);
+  window.localStorage.setItem(DEMO_SEED_STATE_KEY, "ready");
+  broadcast("all");
+}
+
+export function ensureDemoData() {
+  if (typeof window === "undefined") return;
+  if (window.localStorage.getItem(DEMO_SEED_STATE_KEY) === "cleared") return;
+  if (hasStoredBusinessData()) {
+    if (!window.localStorage.getItem(DEMO_SEED_VERSION_KEY)) {
+      window.localStorage.setItem(DEMO_SEED_VERSION_KEY, DEMO_SEED_VERSION);
+    }
+    return;
+  }
+  if (window.localStorage.getItem(DEMO_SEED_VERSION_KEY) === DEMO_SEED_VERSION) return;
+  seedDemoData(true);
 }
 
 export const clientsRepo = {
@@ -213,6 +267,9 @@ export const activityRepo = {
 };
 
 export function resetAll() {
+  if (typeof window === "undefined") return;
   Object.values(KEYS).forEach((k) => window.localStorage.removeItem(k));
-  window.dispatchEvent(new CustomEvent("cogni:changed", { detail: { key: "all" } }));
+  window.localStorage.removeItem(DEMO_SEED_VERSION_KEY);
+  window.localStorage.setItem(DEMO_SEED_STATE_KEY, "cleared");
+  broadcast("all");
 }

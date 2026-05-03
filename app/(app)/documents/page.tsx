@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { FileCheck2, Plus, CheckCircle2, AlertTriangle } from "lucide-react";
+import { FileCheck2, Plus, CheckCircle2, AlertTriangle, Clock3 } from "lucide-react";
 import { PageHeader } from "@/components/ui/page-header";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Badge } from "@/components/ui/badge";
+import { StatCard } from "@/components/ui/stat-card";
 import { useStore } from "@/lib/db/use-store";
 import { clientsRepo, documentsRepo } from "@/lib/db/repo";
 import { docStatusLabel, docStatusTone, docTypeLabel } from "@/lib/labels";
@@ -20,6 +21,7 @@ export default function DocumentsPage() {
     expire: docs.filter((d) => d.status === "expire"),
     manquant: docs.filter((d) => d.status === "manquant"),
   };
+  const coverage = docs.length > 0 ? Math.round((byStatus.verifie.length / docs.length) * 100) : 0;
 
   function clientName(id: string) {
     const c = clients.find((x) => x.id === id);
@@ -45,6 +47,13 @@ export default function DocumentsPage() {
         />
       ) : (
         <>
+          <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <StatCard label="Pieces totales" value={docs.length} hint={`${clients.length} clients concernes`} delta="Vue transverse" icon={FileCheck2} />
+            <StatCard label="Taux de verification" value={`${coverage}%`} hint={`${byStatus.verifie.length} verifiees`} delta="Base qualifiee" icon={CheckCircle2} tone="success" />
+            <StatCard label="Pieces a relancer" value={byStatus.manquant.length + byStatus.en_attente.length} hint="En attente ou manquantes" delta="Priorite front office" icon={Clock3} tone="warning" />
+            <StatCard label="Documents expires" value={byStatus.expire.length} hint="Risque de blocage reglementaire" delta="A securiser" icon={AlertTriangle} tone="danger" />
+          </div>
+
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <Pill label="En attente" count={byStatus.en_attente.length} icon={<Plus className="w-4 h-4" />} tone="warning" />
             <Pill label="Vérifiés" count={byStatus.verifie.length} icon={<CheckCircle2 className="w-4 h-4" />} tone="success" />
@@ -52,7 +61,7 @@ export default function DocumentsPage() {
             <Pill label="Manquants" count={byStatus.manquant.length} icon={<AlertTriangle className="w-4 h-4" />} tone="danger" />
           </div>
 
-          <div className="card overflow-hidden">
+          <div className="table-shell">
             <table className="w-full text-sm">
               <thead className="bg-navy-900/55 border-b border-line text-xs uppercase tracking-wider text-ink-muted">
                 <tr>

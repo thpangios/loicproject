@@ -5,6 +5,7 @@ export function StatCard({
   label,
   value,
   hint,
+  delta,
   icon: Icon,
   tone = "default",
   className,
@@ -12,26 +13,34 @@ export function StatCard({
   label: string;
   value: string | number;
   hint?: string;
+  delta?: string;
   icon?: LucideIcon;
   tone?: "default" | "warning" | "success" | "danger";
   className?: string;
 }) {
   const toneRing: Record<string, string> = {
-    default: "text-gold-400 bg-navy-800/88 border border-line",
-    warning: "text-warning bg-[rgba(214,168,93,0.14)] border border-[rgba(214,168,93,0.18)]",
-    success: "text-success bg-[rgba(112,186,141,0.14)] border border-[rgba(112,186,141,0.18)]",
-    danger: "text-danger bg-[rgba(217,117,106,0.14)] border border-[rgba(217,117,106,0.18)]",
+    default: "text-gold-400 bg-[rgba(232,190,120,0.08)] border border-[rgba(232,190,120,0.15)]",
+    warning: "text-warning bg-[rgba(224,173,76,0.14)] border border-[rgba(224,173,76,0.18)]",
+    success: "text-success bg-[rgba(87,194,138,0.14)] border border-[rgba(87,194,138,0.18)]",
+    danger: "text-danger bg-[rgba(226,110,102,0.14)] border border-[rgba(226,110,102,0.18)]",
   };
   return (
-    <div className={cn("card p-5 kpi", className)}>
-      <div className="flex items-start justify-between">
+    <div className={cn("metric-tile kpi", className)}>
+      <div className="flex items-start justify-between gap-4">
         <div>
           <div className="label">{label}</div>
-          <div className="font-display text-3xl text-ink mt-2 tabular-nums leading-none kpi-value">{value}</div>
-          {hint && <div className="text-xs text-ink-muted mt-2">{hint}</div>}
+          <div className="kpi-value mt-3 font-display text-3xl leading-none text-ink tabular-nums">{value}</div>
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            {delta && (
+              <span className="rounded-full border border-[rgba(87,194,138,0.18)] bg-[rgba(87,194,138,0.1)] px-2 py-0.5 text-[11px] font-medium text-success">
+                {delta}
+              </span>
+            )}
+            {hint && <div className="text-xs text-ink-muted">{hint}</div>}
+          </div>
         </div>
         {Icon && (
-          <div className={cn("w-9 h-9 rounded-lg flex items-center justify-center", toneRing[tone])}>
+          <div className={cn("flex h-11 w-11 items-center justify-center rounded-2xl", toneRing[tone])}>
             <Icon className="w-4.5 h-4.5" strokeWidth={1.75} />
           </div>
         )}
